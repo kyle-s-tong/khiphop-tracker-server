@@ -11,8 +11,11 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
   async getAllArtists() {
     const token = await this.getCurrentToken();
 
+    const ids = await this.fileSystem.readFileKey(this.file, 'ids');
+    const formattedIds = ids.join();
+
     const response = await superagent
-      .get(`${this.baseUrl}?ids=0Q5XzDpn7DCI5jlubok4xb,7IWshUcKfJyDWrbiF2XT8J`)
+      .get(`${this.baseUrl}?ids=${formattedIds}`)
       .set('Authorization', `Bearer ${token}`);
     
     // TODO Make this error handling better.
@@ -36,5 +39,16 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
     }
 
     return response.body;
+  }
+
+  async addArtist(artistId) {
+    try {
+      await this.fileSystem.updateFileKey(this.file, 'ids', artistId, true);
+      const response = await this.getArtist(artistId);
+
+      return response;
+    } catch (error) {
+      return null;
+    }
   }
 }

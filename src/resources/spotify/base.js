@@ -1,8 +1,12 @@
 import superagent from 'superagent';
 
+import FileSystemWriter from '../system/base';
+
 export default class SpotifyRequester {
   constructor() {
     this.baseUrl = `https://api.spotify.com/v1`;
+    this.fileSystem = new FileSystemWriter();
+    this.file = '/Users/kyle/Documents/code/khiphop-tracker-server/src/data/spotifyStorage.json';
   }
 
   async getCurrentToken() {
