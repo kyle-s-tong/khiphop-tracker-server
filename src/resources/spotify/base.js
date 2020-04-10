@@ -6,7 +6,7 @@ export default class SpotifyRequester {
   constructor() {
     this.baseUrl = `https://api.spotify.com/v1`;
     this.fileSystem = new FileSystemWriter();
-    this.file = '/Users/kyle/Documents/code/khiphop-tracker-server/src/data/spotifyStorage.json';
+    this.file = process.env.SPOTIFY_STORAGE_PATH;
   }
 
   async getCurrentToken() {
