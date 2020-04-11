@@ -2,6 +2,7 @@ import { Router, response } from 'express';
 
 import ArtistRequester from '../resources/spotify/artists';
 import ArtistSerializer from '../serializers/artists';
+import AlbumSerializer from '../serializers/albums';
 import SearchRequester from '../resources/spotify/search';
 
 const router = new Router();
@@ -27,13 +28,6 @@ router.get('/search', async (req, res) => {
   res.send(response);
 })
 
-router.get('/:id', async (req, res) => {
-  const spotifyResponse = await spotifyArtistRequester.getArtist(req.params.id);
-  const response = ArtistSerializer.serialize(spotifyResponse);
-
-  res.send(response);
-});
-
 router.post('/add', async (req, res) => {
   const requestBody = req.body;
 
@@ -46,5 +40,21 @@ router.post('/add', async (req, res) => {
 
   res.status(201).send(response);
 })
+
+router.get('/:id', async (req, res) => {
+  const spotifyResponse = await spotifyArtistRequester.getArtist(req.params.id);
+  const response = ArtistSerializer.serialize(spotifyResponse);
+
+  res.send(response);
+});
+
+router.get('/:id/albums', async (req, res) => {
+  const spotifyResponse = await spotifyArtistRequester.getArtistAlbums(req.params.id);
+  console.log(spotifyResponse);
+  const response = AlbumSerializer.serialize(spotifyResponse);
+
+  res.send(response);
+})
+
 
 export default router;
