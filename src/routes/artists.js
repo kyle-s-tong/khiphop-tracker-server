@@ -1,4 +1,4 @@
-import { Router, response } from 'express';
+import { Router } from 'express';
 
 import ArtistRequester from '../resources/spotify/artists';
 import ArtistSerializer from '../serializers/artists';
@@ -30,12 +30,13 @@ router.get('/search', async (req, res) => {
 
 router.post('/add', async (req, res) => {
   const requestBody = req.body;
+  console.log(req.body);
 
-  if (!requestBody.id) {
+  if (!requestBody.data.id) {
     res.status(400).send('Request does not contain id.')
   }
 
-  const spotifyResponse = await spotifyArtistRequester.addArtist(requestBody.id);
+  const spotifyResponse = await spotifyArtistRequester.addArtist(requestBody.data.id);
   const response = ArtistSerializer.serialize(spotifyResponse);
 
   res.status(201).send(response);
