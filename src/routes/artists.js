@@ -12,7 +12,8 @@ const spotifySearchRequester = new SearchRequester();
 
 router.get('/', async (req, res) => {
   const spotifyResponse = await spotifyArtistRequester.getAllArtists();
-  const response = ArtistSerializer.serialize(spotifyResponse.artists);
+
+  const response = ArtistSerializer.serialize(spotifyResponse);
 
   res.send(response);
 });

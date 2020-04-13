@@ -8,7 +8,7 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
     this.baseUrl += '/artists';
   }
 
-  async getAllArtists() {
+  async getAllArtists(includeAlbums = true) {
     const token = await this.getCurrentToken();
 
     const ids = await this.fileSystem.readFileKey(this.file, 'ids');
@@ -17,18 +17,33 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
     const response = await superagent
       .get(`${this.baseUrl}?ids=${formattedIds}`)
       .set('Authorization', `Bearer ${token}`);
-    
+
     // TODO Make this error handling better.
     if (response.statusCode !== 200) {
       return null;
     }
 
-    return response.body;
+    const artists = response.body.artists;
+
+    if (!includeAlbums) {
+      return artists;
+    }
+
+    const artistsWithAlbums = Promise.all(artists.map(async (artist) => {
+      const mappedArtist = artist;
+      const albums = await this.getArtistAlbums(artist.id);
+
+      mappedArtist.albums = albums;
+
+      return mappedArtist;
+    }))
+
+    return artistsWithAlbums;
   }
 
   async getArtist(artistId) {
     const token = await this.getCurrentToken();
-    
+
     const response = await superagent
       .get(`${this.baseUrl}/${artistId}`)
       .set('Authorization', `Bearer ${token}`);
