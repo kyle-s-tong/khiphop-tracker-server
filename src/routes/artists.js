@@ -44,14 +44,15 @@ router.post('/add', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const spotifyResponse = await spotifyArtistRequester.getArtist(req.params.id);
-  const response = ArtistSerializer.serialize(spotifyResponse);
+  const artistAlbums = await spotifyArtistRequester.getArtistAlbums(req.params.id);
+  spotifyResponse.albums = artistAlbums;
 
+  const response = ArtistSerializer.serialize(spotifyResponse);
   res.send(response);
 });
 
 router.get('/:id/albums', async (req, res) => {
   const spotifyResponse = await spotifyArtistRequester.getArtistAlbums(req.params.id);
-  console.log(spotifyResponse);
   const response = AlbumSerializer.serialize(spotifyResponse);
 
   res.send(response);

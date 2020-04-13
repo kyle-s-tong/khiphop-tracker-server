@@ -41,6 +41,21 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
     return response.body;
   }
 
+  async getArtistAlbums(artistId) {
+    const token = await this.getCurrentToken();
+
+    const response = await superagent
+      .get(`${this.baseUrl}/${artistId}/albums`)
+      .set('Authorization', `Bearer ${token}`);
+
+    // TODO Make this error handling better.
+    if (response.statusCode !== 200) {
+      return null;
+    }
+
+    return response.body.items;
+  }
+
   async addArtist(artistId) {
     try {
       await this.fileSystem.updateFileKey(this.file, 'ids', artistId, true);
