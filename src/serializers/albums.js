@@ -8,6 +8,7 @@ function extractArtists(artists, tracks) {
     featuringArtists.push(...track.artists);
   });
 
+  // Merge the original artists and featuring artists, then dedupe them.
   const allArtists = [...originalArtists, ...featuringArtists].filter((artist, index, self) => {
     return index === self.findIndex(index => {
       return index.id === artist.id
