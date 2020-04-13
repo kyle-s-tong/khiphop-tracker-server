@@ -30,7 +30,6 @@ router.get('/search', async (req, res) => {
 
 router.post('/add', async (req, res) => {
   const requestBody = req.body;
-  console.log(req.body);
 
   if (!requestBody.data.id) {
     res.status(400).send('Request does not contain id.')

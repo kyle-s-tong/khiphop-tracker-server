@@ -23,4 +23,18 @@ export default class AlbumSpotifyRequester extends SpotifyRequester {
     return response.body;
   }
 
+  async getAlbumTracks(albumId) {
+    const token = await this.getCurrentToken();
+
+    const response = await superagent
+      .get(`${this.baseUrl}/${albumId}/tracks?limit=50`)
+      .set('Authorization', `Bearer ${token}`);
+
+    // TODO Make this error handling better.
+    if (response.statusCode !== 200) {
+      return null;
+    }
+
+    return response.body.items;
+  }
 }

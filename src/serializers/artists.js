@@ -5,7 +5,6 @@ const ArtistSerializer = new Serializer('artist', {
   albums: {
     ref: 'id',
     included: false,
-    attributes: ['name'],
   }
 });
 
