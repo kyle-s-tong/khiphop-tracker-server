@@ -19,7 +19,7 @@ function extractArtists(artists, tracks) {
 }
 
 const AlbumSerializer = new Serializer('album', {
-  attributes: ['name', 'images', 'release_date', 'tracks', 'artists'],
+  attributes: ['name', 'images', 'release_date', 'tracks', 'artists', 'album-artists', 'album_group', 'album_type'],
   tracks: {
     ref: 'id',
     included: false,
@@ -28,12 +28,23 @@ const AlbumSerializer = new Serializer('album', {
     ref: 'id',
     included: false,
   },
+  'album-artists': {
+    ref: 'id',
+    type: 'artists',
+    attributes: ['name'],
+    included: true,
+  },
+  typeForAttribute: function (type) {
+    if (type === 'album-artists') { return 'artists'; }
+    return undefined;
+  },
   transform: (record) => {
     const transformedRecord = record;
 
     const artistsIncludingFeatures = extractArtists(record.artists, record.tracks);
     transformedRecord.artists = artistsIncludingFeatures;
 
+    console.log(transformedRecord);
     return transformedRecord;
   }
 });

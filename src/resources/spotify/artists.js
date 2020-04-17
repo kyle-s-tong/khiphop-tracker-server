@@ -8,7 +8,7 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
     this.baseUrl += '/artists';
   }
 
-  async getAllArtists(includeAlbums = true) {
+  async getAllArtists(includeAlbums = false) {
     const token = await this.getCurrentToken();
 
     const ids = await this.fileSystem.readFileKey(this.file, 'ids');
@@ -60,7 +60,7 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
     const token = await this.getCurrentToken();
 
     const response = await superagent
-      .get(`${this.baseUrl}/${artistId}/albums`)
+      .get(`${this.baseUrl}/${artistId}/albums?limit=50`)
       .set('Authorization', `Bearer ${token}`);
 
     // TODO Make this error handling better.
