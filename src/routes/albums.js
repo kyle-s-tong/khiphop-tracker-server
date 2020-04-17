@@ -10,6 +10,7 @@ const spotifyAlbumRequester = new AlbumRequester();
 
 router.get('/:id', async (req, res) => {
   const spotifyResponse = await spotifyAlbumRequester.getAlbum(req.params.id);
+  // TODO: Refactor this into a model kind of object
   const albumTracks = await spotifyAlbumRequester.getAlbumTracks(req.params.id);
   spotifyResponse.tracks = albumTracks;
 

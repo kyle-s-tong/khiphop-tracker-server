@@ -15,6 +15,7 @@ const spotifySearchRequester = new SearchRequester();
 router.get('/', async (req, res) => {
   const spotifyResponse = await spotifyArtistRequester.getAllArtists();
   spotifyResponse.forEach(artist => {
+    // TODO: Refactor this into a model kind of object
     artist.albums = [];
     artist['latest-releases'] = [];
   })
@@ -60,6 +61,7 @@ router.get('/:id/albums', async (req, res) => {
       const spotifyAlbumsWithTracks = await Promise.all(filteredResponse.map(async (album) => {
         const mappedAlbum = album;
         const albumTracks = await spotifyAlbumRequester.getAlbumTracks(album.id);
+        // TODO: Refactor this into a model kind of object
         mappedAlbum.tracks = albumTracks;
         mappedAlbum['album-artists'] = album.artists;
 
