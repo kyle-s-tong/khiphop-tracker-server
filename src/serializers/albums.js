@@ -22,7 +22,8 @@ const AlbumSerializer = new Serializer('album', {
   attributes: ['name', 'images', 'release_date', 'tracks', 'artists', 'album-artists', 'album_group', 'album_type'],
   tracks: {
     ref: 'id',
-    included: false,
+    attributes: ['name', 'artists'],
+    included: true,
   },
   artists: {
     ref: 'id',
