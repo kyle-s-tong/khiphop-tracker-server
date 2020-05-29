@@ -6,7 +6,7 @@ export default class SearchSpotifyRequester extends SpotifyRequester {
   constructor() {
     super(...arguments);
     this.baseUrl += '/search';
-    this.genre = '+genre:"k-hop"'
+    this.genre = '+genre:"k-rap"'
   }
 
   async searchArtists(query) {

@@ -16,7 +16,7 @@ const ArtistSerializer = new Serializer('artist', {
     ignoreRelationshipData: true,
     relationshipLinks: {
       related: (record, current, parent) => {
-        return `http://localhost:3000/artists/${parent.id}/albums?filter[releaseDate]=2020-04-10`
+        return `http://localhost:3000/artists/${parent.id}/albums?filter[releaseDate]=2020-05-23`
       }
     }
   }
