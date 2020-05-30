@@ -68,6 +68,15 @@ export default class ArtistSpotifyRequester extends SpotifyRequester {
       return null;
     }
 
+    response.body.items.sort((a, b) => {
+      const albumA = new Date(a.release_date);
+      const albumB = new Date(b.release_date);
+      // Compare the 2 dates
+      if (albumA > albumB) return -1;
+      if (albumB < albumA) return 1;
+      return 0;
+    });
+
     return response.body.items;
   }
 

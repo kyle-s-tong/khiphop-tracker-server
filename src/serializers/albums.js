@@ -4,9 +4,11 @@ function extractArtists(artists, tracks) {
   const originalArtists = artists;
   let featuringArtists = [];
 
-  tracks.forEach((track) => {
-    featuringArtists.push(...track.artists);
-  });
+  if (tracks) {
+    tracks.forEach((track) => {
+      featuringArtists.push(...track.artists);
+    });
+  }
 
   // Merge the original artists and featuring artists, then dedupe them.
   const allArtists = [...originalArtists, ...featuringArtists].filter((artist, index, self) => {
